@@ -1,13 +1,11 @@
 //: [Previous](@previous)
 
-//#-hidden-code
 import UIKit
 import PlaygroundSupport
-//#-end-hidden-code
 
 let v = UIViewController()
-let side = Sideview()
-v.view.addSubview(side)
+let cathode = CathodeView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+v.view.addSubview(cathode)
 
 PlaygroundPage.current.liveView = v
 
