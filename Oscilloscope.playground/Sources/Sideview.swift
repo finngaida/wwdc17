@@ -47,6 +47,7 @@ public class Sideview: UIView {
         anim.toValue = streamPath(true).cgPath
         anim.duration = 1
         anim.autoreverses = true
+        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         anim.repeatCount = Float(Int.max)
         stream.add(anim, forKey: "")
     }
@@ -77,9 +78,9 @@ public class Sideview: UIView {
         let l = CAShapeLayer()
         l.path = borderPath().cgPath
         l.fillColor = UIColor.darkGray.cgColor
-        l.borderColor = UIColor.lightGray.cgColor
+        l.strokeColor = UIColor.lightGray.cgColor
         l.lineJoin = kCALineJoinRound
-        l.borderWidth = 3
+        l.lineWidth = 3
         return l
     }
     
@@ -96,7 +97,7 @@ public class Sideview: UIView {
         
         let path = UIBezierPath()
         path.move(to: p1)
-        [p2, p3, p4, p5, p6].forEach { path.addLine(to: $0) }
+        [p2, p3, p4, p5, p6, p1].forEach { path.addLine(to: $0) }
         return path
     }
     

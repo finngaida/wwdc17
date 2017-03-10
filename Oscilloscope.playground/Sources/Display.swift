@@ -8,6 +8,8 @@ public class Display: UIView {
         self.backgroundColor = UIColor(red: 0.243, green: 0.686, blue: 0.82, alpha: 1)
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 10
+        self.layer.borderColor = UIColor(red: 0.894, green: 0.898, blue: 0.875, alpha: 1).cgColor
+        self.layer.borderWidth = 3
         
         drawVerticalLines()
         drawHorizontalLines()
@@ -26,7 +28,7 @@ public class Display: UIView {
         anim.repeatCount = Float(Int.max)
         anim.duration = 2
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.52, execute: {
             spark.layer.add(anim, forKey: "")
         })
     }

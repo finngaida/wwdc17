@@ -2,13 +2,13 @@ import UIKit
 
 public class Plate: UIView {
     
-    enum Mode {
+    public enum Mode {
         case x, y
     }
     
     var mode: Mode
     
-    init(frame: CGRect, mode: Mode) {
+    public init(frame: CGRect, mode: Mode) {
         self.mode = mode
         super.init(frame: frame)
 
