@@ -23,8 +23,11 @@ import UIKit
 import PlaygroundSupport
 
 let v = UIViewController()
-let side = Sideview()
+let side = Sideview(frame: CGRect(x: 0, y: 0, width: 370, height: 270))
 v.view.addSubview(side)
+
+let screen = Display(frame: CGRect(x: 40, y: 300, width: 300, height: 200))
+v.view.addSubview(screen)
 
 PlaygroundPage.current.liveView = v
 

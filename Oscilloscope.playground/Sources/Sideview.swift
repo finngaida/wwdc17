@@ -24,14 +24,16 @@ public class Sideview: UIView {
     var yPlate: Plate
     var screen: Screen
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         
-        cathode = Cathode(frame: CGRect(x: 10, y: 135, width: 50, height: 30))
-        focusAnode = Anode(frame: CGRect(x: 70, y: 135, width: 30, height: 30))
-        accelerationAnode = Anode(frame: CGRect(x: 110, y: 135, width: 30, height: 30))
-        xPlate = Plate(frame: CGRect(x: 150, y: 135, width: 30, height: 30), mode: .x)
-        yPlate = Plate(frame: CGRect(x: 190, y: 135, width: 30, height: 30), mode: .y)
-        screen = Screen(frame: CGRect(x: 370, y: 30, width: 10, height: 240))
+        let w = frame.width
+        let h = frame.height
+        cathode = Cathode(frame: CGRect(x: w * 0.05, y: h * 0.5 - 15, width: 50, height: 30))
+        focusAnode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width + 10, y: h * 0.5 - 15, width: 30, height: 30))
+        accelerationAnode = Anode(frame: CGRect(x: focusAnode.frame.origin.x + focusAnode.frame.width + 10, y: h * 0.5 - 15, width: 30, height: 30))
+        xPlate = Plate(frame: CGRect(x: accelerationAnode.frame.origin.x + accelerationAnode.frame.width + 10, y: h * 0.5 - 15, width: 30, height: 30), mode: .x)
+        yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width + 10, y: h * 0.5 - 15, width: 30, height: 30), mode: .y)
+        screen = Screen(frame: CGRect(x: w - 5, y: 5, width: 5, height: h - 10))
         
         super.init(frame: frame)
         
@@ -40,27 +42,29 @@ public class Sideview: UIView {
         let stream = streamLayer()
         self.layer.addSublayer(stream)
         
-        let anim = CABasicAnimation(keyPath: "strokeEnd")
-        anim.fromValue = 0
-        anim.toValue = 1
-        anim.duration = 5
+        let anim = CABasicAnimation(keyPath: "path")
+        anim.fromValue = streamPath(false).cgPath
+        anim.toValue = streamPath(true).cgPath
+        anim.duration = 1
+        anim.autoreverses = true
+        anim.repeatCount = Float(Int.max)
         stream.add(anim, forKey: "")
     }
     
     func streamLayer() -> CALayer {
         let l = CAShapeLayer()
-        l.path = streamPath().cgPath
+        l.path = streamPath(true).cgPath
         l.fillColor = nil
         l.strokeColor = UIColor.white.cgColor
         l.lineWidth = 4
         return l
     }
     
-    func streamPath() -> UIBezierPath {
-        let p1 = CGPoint(x: 110, y: 150)
-        let p2 = CGPoint(x: 190, y: 150)
-        let p3 = CGPoint(x: 220, y: 145)
-        let p4 = CGPoint(x: 380, y: 100)
+    func streamPath(_ up: Bool) -> UIBezierPath {
+        let p1 = CGPoint(x: accelerationAnode.frame.origin.x, y: accelerationAnode.frame.origin.y + accelerationAnode.frame.height / 2)
+        let p2 = CGPoint(x: yPlate.frame.origin.x, y: yPlate.frame.origin.y + yPlate.frame.height / 2)
+        let p3 = CGPoint(x: yPlate.frame.origin.x + yPlate.frame.width, y: yPlate.frame.origin.y + yPlate.frame.height / 2 + (up ? -5 : 5))
+        let p4 = CGPoint(x: screen.frame.origin.x + screen.frame.width, y: self.frame.height * (up ? 0.3 : 0.7))
         let p = UIBezierPath()
         p.move(to: p1)
         p.addLine(to: p2)
@@ -73,18 +77,22 @@ public class Sideview: UIView {
         let l = CAShapeLayer()
         l.path = borderPath().cgPath
         l.fillColor = UIColor.darkGray.cgColor
-        l.borderColor = UIColor.black.cgColor
+        l.borderColor = UIColor.lightGray.cgColor
+        l.lineJoin = kCALineJoinRound
         l.borderWidth = 3
         return l
     }
     
     func borderPath() -> UIBezierPath {
-        let p1 = CGPoint(x: 0, y: 100)
-        let p2 = CGPoint(x: 300, y: 100)
-        let p3 = CGPoint(x: 400, y: 0)
-        let p4 = CGPoint(x: 400, y: 300)
-        let p5 = CGPoint(x: 300, y: 200)
-        let p6 = CGPoint(x: 0, y: 200)
+        let w = self.frame.width
+        let h = self.frame.height
+        
+        let p1 = CGPoint(x: w * 0.0, y: h * 0.3)
+        let p2 = CGPoint(x: w * 0.6, y: h * 0.3)
+        let p3 = CGPoint(x: w * 1.0, y: h * 0.0)
+        let p4 = CGPoint(x: w * 1.0, y: h * 1.0)
+        let p5 = CGPoint(x: w * 0.6, y: h * 0.7)
+        let p6 = CGPoint(x: w * 0.0, y: h * 0.7)
         
         let path = UIBezierPath()
         path.move(to: p1)
