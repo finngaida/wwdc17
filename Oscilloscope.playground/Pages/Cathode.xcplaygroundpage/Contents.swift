@@ -4,9 +4,10 @@ import UIKit
 import PlaygroundSupport
 
 let v = UIViewController()
-let cathode = CathodeView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+let cathode = Cathode(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
 v.view.addSubview(cathode)
 
 PlaygroundPage.current.liveView = v
+PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

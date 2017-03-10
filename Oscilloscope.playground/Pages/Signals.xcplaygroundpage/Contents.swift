@@ -1,7 +1,6 @@
 //: [Previous](@previous)
 
-import Foundation
-
-var str = "Hello, playground"
+import PlaygroundSupport
+PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

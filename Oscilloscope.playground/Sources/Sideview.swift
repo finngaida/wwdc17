@@ -14,33 +14,6 @@ public class Anode: UIView {
     
 }
 
-public class Plate: UIView {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        self.backgroundColor = .blue
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}
-
-public class SideScreen: UIView {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-         self.backgroundColor = .green
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}
-
 
 public class Sideview: UIView {
     
@@ -49,21 +22,21 @@ public class Sideview: UIView {
     var accelerationAnode: Anode
     var xPlate: Plate
     var yPlate: Plate
-    var screen: SideScreen
+    var screen: Screen
     
     override init(frame: CGRect) {
         
         cathode = Cathode(frame: CGRect(x: 10, y: 135, width: 50, height: 30))
         focusAnode = Anode(frame: CGRect(x: 70, y: 135, width: 30, height: 30))
         accelerationAnode = Anode(frame: CGRect(x: 110, y: 135, width: 30, height: 30))
-        xPlate = Plate(frame: CGRect(x: 150, y: 135, width: 30, height: 30))
-        yPlate = Plate(frame: CGRect(x: 190, y: 135, width: 30, height: 30))
-        screen = SideScreen(frame: CGRect(x: 350, y: 0, width: 10, height: 300))
+        xPlate = Plate(frame: CGRect(x: 150, y: 135, width: 30, height: 30), mode: .x)
+        yPlate = Plate(frame: CGRect(x: 190, y: 135, width: 30, height: 30), mode: .y)
+        screen = Screen(frame: CGRect(x: 370, y: 30, width: 10, height: 240))
         
         super.init(frame: frame)
         
         self.layer.addSublayer(borderLayer())
-        [cathode, focusAnode, accelerationAnode, xPlate, yPlate, screen].forEach { self.addSubview($0) }
+        [focusAnode, accelerationAnode, xPlate, yPlate, screen, cathode].forEach { self.addSubview($0) }
         let stream = streamLayer()
         self.layer.addSublayer(stream)
         
@@ -84,10 +57,10 @@ public class Sideview: UIView {
     }
     
     func streamPath() -> UIBezierPath {
-        let p1 = CGPoint(x: 35, y: 150)
+        let p1 = CGPoint(x: 110, y: 150)
         let p2 = CGPoint(x: 190, y: 150)
         let p3 = CGPoint(x: 220, y: 145)
-        let p4 = CGPoint(x: 360, y: 100)
+        let p4 = CGPoint(x: 380, y: 100)
         let p = UIBezierPath()
         p.move(to: p1)
         p.addLine(to: p2)

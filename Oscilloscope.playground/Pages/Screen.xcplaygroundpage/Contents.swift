@@ -1,7 +1,13 @@
 //: [Previous](@previous)
 
-import Foundation
+import UIKit
+import PlaygroundSupport
 
-var str = "Hello, playground"
+let v = UIViewController()
+
+let d = Display(frame: CGRect(x: 0, y: 0, width: 300, height: 200))
+v.view.addSubview(d)
+
+PlaygroundPage.current.liveView = v
 
 //: [Next](@next)
