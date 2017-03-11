@@ -23,11 +23,11 @@ import UIKit
 import PlaygroundSupport
 
 let v = UIViewController()
-let side = Sideview(frame: CGRect(x: 5, y: 0, width: 370, height: 270))
-v.view.addSubview(side)
-
-let screen = Display(frame: CGRect(x: 40, y: 300, width: 300, height: 200))
+let screen = Display(frame: CGRect(x: 40, y: 50, width: 300, height: 240))
 v.view.addSubview(screen)
+
+screen.yFunc = { i in return sin((i-1) * CGFloat.pi) }
+screen.amplitude = 0.6
 
 PlaygroundPage.current.liveView = v
 

@@ -4,15 +4,23 @@ import UIKit
 import PlaygroundSupport
 
 let v = UIViewController()
-let plate = Plate(frame: CGRect(x: 100, y: 100, width: 50, height: 50), mode: .y)
+let plate = Plate(frame: CGRect(x: 100, y: 75, width: 100, height: 100), mode: .y)
 
 v.view.addSubview(plate)
 
+let ym: CGFloat = plate.frame.origin.y + plate.frame.height / 2
+let xr: CGFloat = plate.frame.origin.x + plate.frame.width
+let a: CGFloat = -30   // E-Feld Beschl
+let t: CGFloat = 1      // Zeit im Feld (Steigung danach)
+let s = 0.5 * a * pow(t, 2)     // Ablenkung am Ende des Feldes
+let d: CGFloat = 200    // Feld - Schirm
+let fs = ym + s + (d * t * a/100)   // Ablenkung auf dem Schirm
+
 let path = UIBezierPath()
-path.move(to: CGPoint(x: 0, y: plate.frame.origin.y + plate.frame.height / 2))
-path.addLine(to: CGPoint(x: plate.frame.origin.x, y: plate.frame.origin.y + plate.frame.height / 2))
-path.addQuadCurve(to: CGPoint(x: plate.frame.origin.x + plate.frame.width, y: plate.frame.origin.y + plate.frame.height / 2 - 5), controlPoint: CGPoint(x: plate.frame.origin.x + plate.frame.width / 2, y: plate.frame.origin.y + plate.frame.height / 2))
-path.addLine(to: CGPoint(x: 400, y: 50))
+path.move(to: CGPoint(x: 0, y: ym))
+path.addLine(to: CGPoint(x: plate.frame.origin.x, y: ym))
+path.addQuadCurve(to: CGPoint(x: xr, y: ym + s), controlPoint: CGPoint(x: plate.frame.origin.x + plate.frame.width / 2, y: ym))
+path.addLine(to: CGPoint(x: xr + d, y: fs))
 
 let layer = CAShapeLayer()
 layer.path = path.cgPath

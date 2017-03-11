@@ -35,7 +35,7 @@ public class Cathode: UIView {
         l.fillColor = nil
         l.strokeColor = UIColor.white.cgColor
         l.lineWidth = 3
-        l.position = CGPoint(x: 40*self.frame.width/100, y: 10*self.frame.height/100)
+        l.position = CGPoint(x: 40*self.frame.width/100, y: 20*self.frame.height/100)
         l.transform = CATransform3DMakeRotation(CGFloat.pi * 0.5, 0, 0, 1)
         l.transform = CATransform3DScale(l.transform, self.frame.width/100, self.frame.height/100, 1)
         return l

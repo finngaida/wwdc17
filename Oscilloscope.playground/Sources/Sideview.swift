@@ -57,7 +57,7 @@ public class Sideview: UIView {
         l.path = streamPath(true).cgPath
         l.fillColor = nil
         l.strokeColor = UIColor.white.cgColor
-        l.lineWidth = 4
+        l.lineWidth = 2
         return l
     }
     
