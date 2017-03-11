@@ -28,12 +28,12 @@ public class Sideview: UIView {
         
         let w = frame.width
         let h = frame.height
-        cathode = Cathode(frame: CGRect(x: w * 0.05, y: h * 0.5 - 15, width: 50, height: 30))
-        focusAnode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width + 10, y: h * 0.5 - 15, width: 30, height: 30))
-        accelerationAnode = Anode(frame: CGRect(x: focusAnode.frame.origin.x + focusAnode.frame.width + 10, y: h * 0.5 - 15, width: 30, height: 30))
-        xPlate = Plate(frame: CGRect(x: accelerationAnode.frame.origin.x + accelerationAnode.frame.width + 10, y: h * 0.5 - 15, width: 30, height: 30), mode: .x)
-        yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width + 10, y: h * 0.5 - 15, width: 30, height: 30), mode: .y)
-        screen = Screen(frame: CGRect(x: w - 5, y: 5, width: 5, height: h - 10))
+        cathode = Cathode(frame: CGRect(x: 5, y: h * 0.5 - 15, width: 20, height: 30))
+        focusAnode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width + 5, y: h * 0.5 - 15, width: 15, height: 30))
+        accelerationAnode = Anode(frame: CGRect(x: focusAnode.frame.origin.x + focusAnode.frame.width + 5, y: h * 0.5 - 15, width: 15, height: 30))
+        xPlate = Plate(frame: CGRect(x: accelerationAnode.frame.origin.x + accelerationAnode.frame.width + 5, y: h * 0.5 - 40, width: 70, height: 80), mode: .x)
+        yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .y)
+        screen = Screen(frame: CGRect(x: w - 3, y: 0, width: 3, height: h))
         
         super.init(frame: frame)
         
@@ -41,6 +41,10 @@ public class Sideview: UIView {
         [focusAnode, accelerationAnode, xPlate, yPlate, screen, cathode].forEach { self.addSubview($0) }
         let stream = streamLayer()
         self.layer.addSublayer(stream)
+        
+        xPlate.plate2?.removeFromSuperlayer()
+        xPlate.plate2?.position = CGPoint(x: xPlate.frame.origin.x, y: xPlate.frame.origin.y)
+        self.layer.addSublayer(xPlate.plate2!)
         
         let anim = CABasicAnimation(keyPath: "path")
         anim.fromValue = streamPath(false).cgPath
@@ -62,22 +66,19 @@ public class Sideview: UIView {
     }
     
     func streamPath(_ up: Bool) -> UIBezierPath {
-        let p1 = CGPoint(x: accelerationAnode.frame.origin.x, y: accelerationAnode.frame.origin.y + accelerationAnode.frame.height / 2)
-        let p2 = CGPoint(x: yPlate.frame.origin.x, y: yPlate.frame.origin.y + yPlate.frame.height / 2)
-        let p3 = CGPoint(x: yPlate.frame.origin.x + yPlate.frame.width, y: yPlate.frame.origin.y + yPlate.frame.height / 2 + (up ? -5 : 5))
-        let p4 = CGPoint(x: screen.frame.origin.x + screen.frame.width, y: self.frame.height * (up ? 0.3 : 0.7))
-        let p = UIBezierPath()
-        p.move(to: p1)
-        p.addLine(to: p2)
-        p.addQuadCurve(to: p3, controlPoint: CGPoint(x: p2.x+(p3.x-p2.x)/2, y: p2.y))
-        p.addLine(to: p4)
-        return p
+        let ym: CGFloat = yPlate.frame.origin.y + yPlate.frame.height / 2
+        let sx: CGFloat = accelerationAnode.frame.origin.x
+        let sw: CGFloat = accelerationAnode.frame.width
+        let x: CGFloat = yPlate.frame.origin.x
+        let xw: CGFloat = yPlate.frame.width
+        let start = CGPoint(x: sx, y: ym)
+        return Plate.createPath(with: start, distanceToYPlates: x - sx - sw, lengthOfYPlates: xw, yAcceleration: up ? -20 : 20, distanceToScreen: screen.frame.origin.x-x-xw+15)
     }
     
     func borderLayer() -> CALayer {
         let l = CAShapeLayer()
         l.path = borderPath().cgPath
-        l.fillColor = UIColor.darkGray.cgColor
+        l.fillColor = UIColor(white: 0, alpha: 0.9).cgColor
         l.strokeColor = UIColor.lightGray.cgColor
         l.lineJoin = kCALineJoinRound
         l.lineWidth = 3

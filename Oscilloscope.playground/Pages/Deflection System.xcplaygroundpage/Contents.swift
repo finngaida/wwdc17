@@ -4,26 +4,16 @@ import UIKit
 import PlaygroundSupport
 
 let v = UIViewController()
-let plate = Plate(frame: CGRect(x: 100, y: 75, width: 100, height: 100), mode: .y)
+
+let x:CGFloat = 100
+let ym:CGFloat = 125
+
+let plate = Plate(frame: CGRect(x: x, y: ym-50, width: x, height: x), mode: .y)
 
 v.view.addSubview(plate)
 
-let ym: CGFloat = plate.frame.origin.y + plate.frame.height / 2
-let xr: CGFloat = plate.frame.origin.x + plate.frame.width
-let a: CGFloat = -30   // E-Feld Beschl
-let t: CGFloat = 1      // Zeit im Feld (Steigung danach)
-let s = 0.5 * a * pow(t, 2)     // Ablenkung am Ende des Feldes
-let d: CGFloat = 200    // Feld - Schirm
-let fs = ym + s + (d * t * a/100)   // Ablenkung auf dem Schirm
-
-let path = UIBezierPath()
-path.move(to: CGPoint(x: 0, y: ym))
-path.addLine(to: CGPoint(x: plate.frame.origin.x, y: ym))
-path.addQuadCurve(to: CGPoint(x: xr, y: ym + s), controlPoint: CGPoint(x: plate.frame.origin.x + plate.frame.width / 2, y: ym))
-path.addLine(to: CGPoint(x: xr + d, y: fs))
-
 let layer = CAShapeLayer()
-layer.path = path.cgPath
+layer.path = Plate.createPath(with: CGPoint(x: 0, y: ym), distanceToYPlates: x, lengthOfYPlates: x, yAcceleration: -20, distanceToScreen: 200).cgPath
 layer.strokeColor = UIColor.white.cgColor
 layer.lineWidth = 3
 layer.fillColor = nil
