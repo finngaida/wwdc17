@@ -8,8 +8,6 @@ public class Cathode: UIView {
         emitter = CAEmitterLayer()
         super.init(frame: frame)
         
-        self.backgroundColor = .gray
-        
         emitter.emitterPosition = CGPoint(x: frame.width/4, y: frame.height/2)
         
         let cell = CAEmitterCell()
@@ -35,9 +33,9 @@ public class Cathode: UIView {
         l.fillColor = nil
         l.strokeColor = UIColor.white.cgColor
         l.lineWidth = 3
-        l.position = CGPoint(x: 40*self.frame.width/100, y: 20*self.frame.height/100)
+        l.position = CGPoint(x: 0.4*self.frame.width, y: 0.15*self.frame.height)
         l.transform = CATransform3DMakeRotation(CGFloat.pi * 0.5, 0, 0, 1)
-        l.transform = CATransform3DScale(l.transform, self.frame.width/100, self.frame.height/100, 1)
+        l.transform = CATransform3DScale(l.transform, self.frame.height/80, self.frame.height/80, 1)
         return l
     }
     

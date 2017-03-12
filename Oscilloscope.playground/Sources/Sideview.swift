@@ -1,25 +1,9 @@
 import UIKit
 
-public class Anode: UIView {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        self.backgroundColor = .red
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-}
-
-
 public class Sideview: UIView {
     
     var cathode: Cathode
-    var focusAnode: Anode
-    var accelerationAnode: Anode
+    var anode: Anode
     var xPlate: Plate
     var yPlate: Plate
     var screen: Screen
@@ -28,19 +12,26 @@ public class Sideview: UIView {
         
         let w = frame.width
         let h = frame.height
-        cathode = Cathode(frame: CGRect(x: 5, y: h * 0.5 - 15, width: 20, height: 30))
-        focusAnode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width + 5, y: h * 0.5 - 15, width: 15, height: 30))
-        accelerationAnode = Anode(frame: CGRect(x: focusAnode.frame.origin.x + focusAnode.frame.width + 5, y: h * 0.5 - 15, width: 15, height: 30))
-        xPlate = Plate(frame: CGRect(x: accelerationAnode.frame.origin.x + accelerationAnode.frame.width + 5, y: h * 0.5 - 40, width: 70, height: 80), mode: .x)
+        cathode = Cathode(frame: CGRect(x: 8, y: h * 0.5 - 15, width: 15, height: 30))
+        anode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width, y: h * 0.5 - 15, width: 55, height: 30))
+        xPlate = Plate(frame: CGRect(x: anode.frame.origin.x + anode.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .x)
         yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .y)
-        screen = Screen(frame: CGRect(x: w - 3, y: 0, width: 3, height: h))
+        screen = Screen(frame: CGRect(x: w - 1, y: 0, width: 3, height: h))
         
         super.init(frame: frame)
         
         self.layer.addSublayer(borderLayer())
-        [focusAnode, accelerationAnode, xPlate, yPlate, screen, cathode].forEach { self.addSubview($0) }
+        [anode, xPlate, yPlate, screen, cathode].forEach { self.addSubview($0) }
         let stream = streamLayer()
         self.layer.addSublayer(stream)
+        
+        anode.topLayer?.removeFromSuperlayer()
+        anode.topLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
+        self.layer.addSublayer(anode.topLayer!)
+        
+        anode.circleLayer?.removeFromSuperlayer()
+        anode.circleLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
+        self.layer.addSublayer(anode.circleLayer!)
         
         xPlate.plate2?.removeFromSuperlayer()
         xPlate.plate2?.position = CGPoint(x: xPlate.frame.origin.x, y: xPlate.frame.origin.y)
@@ -67,12 +58,11 @@ public class Sideview: UIView {
     
     func streamPath(_ up: Bool) -> UIBezierPath {
         let ym: CGFloat = yPlate.frame.origin.y + yPlate.frame.height / 2
-        let sx: CGFloat = accelerationAnode.frame.origin.x
-        let sw: CGFloat = accelerationAnode.frame.width
+        let ax: CGFloat = anode.frame.origin.x
         let x: CGFloat = yPlate.frame.origin.x
         let xw: CGFloat = yPlate.frame.width
-        let start = CGPoint(x: sx, y: ym)
-        return Plate.createPath(with: start, distanceToYPlates: x - sx - sw, lengthOfYPlates: xw, yAcceleration: up ? -20 : 20, distanceToScreen: screen.frame.origin.x-x-xw+15)
+        let start = CGPoint(x: ax, y: ym)
+        return Plate.createPath(with: start, distanceToYPlates: x - ax, lengthOfYPlates: xw, yAcceleration: up ? -20 : 20, distanceToScreen: screen.frame.origin.x-x-xw)
     }
     
     func borderLayer() -> CALayer {

@@ -8,8 +8,6 @@
         <page name='Deflection System'/>
         <page name='Screen'/>
         <page name='Signals'/>
-        <page name='Usages'/>
         <page name='Playground'/>
-        <page name='Conclusion'/>
     </pages>
 </playground>
