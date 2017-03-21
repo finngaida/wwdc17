@@ -1,34 +1,21 @@
-//: [Previous](@previous)
-
-/*: 
- 
- ## This is a title
- This is sample **bold**, *italic*, `code` and [linked](link) text.
- 
- */
- 
-//: `/*#-hidden-code*/`
-//: `hidden`
-//: `/*#-end-hidden.code*/`
-
-//: `/*#-code-completion(everything, hide)*/`
-//: `/*#-code-completion(identifier, show, vorschlag1, vorschlag2, ...)*/`
-//: `irgendeineFunktion(/*#-editable-code*/editable mit vorschlägen/*#-end-editable-code*/)`
-//: `/*#-code-completion(everything, show)*/`
-
-//: `![image](spark.png)`
-
-
 import UIKit
 import PlaygroundSupport
 
-let v = UIViewController()
-let screen = Display(frame: CGRect(x: 40, y: 50, width: 300, height: 240))
-v.view.addSubview(screen)
+/*:
+ ## Introduction
+ 
+Hello, reader!
+ In this playgroundbook you'll learn the basic principles and components of an *oscilloscope*, a scientific device to display waveforms.
+ In order to do so, we'll build our very own ***Digital Oscilloscope***.
+ 
+ On the right you can see the display of an oscilloscope from the front, displaying a sine wave signal over time.
+ Try changing the signal below to check out some other signals our oscilloscope will be able to display.
+ 
+ */
 
-screen.yFunc = { i in return sin((i-1) * CGFloat.pi) }
-screen.amplitude = 0.6
-
+let v = DisplayViewController()
 PlaygroundPage.current.liveView = v
 
-//: [Next](@next)
+v.display.xFunc = { x in return cos(x * CGFloat.pi) * 0.7 }
+v.display.yFunc = { x in return sin(x * CGFloat.pi) * 0.4 }
+//v.display.amplitude = 0.6

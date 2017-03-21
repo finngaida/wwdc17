@@ -2,49 +2,55 @@ import UIKit
 
 public class Sideview: UIView {
     
-    var cathode: Cathode
-    var anode: Anode
-    var xPlate: Plate
-    var yPlate: Plate
-    var screen: Screen
+    var cathode: Cathode!
+    var anode: Anode!
+    var xPlate: Plate!
+    var yPlate: Plate!
+    var screen: Screen!
     
-    override public init(frame: CGRect) {
-        
-        let w = frame.width
-        let h = frame.height
-        cathode = Cathode(frame: CGRect(x: 8, y: h * 0.5 - 15, width: 15, height: 30))
-        anode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width, y: h * 0.5 - 15, width: 55, height: 30))
-        xPlate = Plate(frame: CGRect(x: anode.frame.origin.x + anode.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .x)
-        yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .y)
-        screen = Screen(frame: CGRect(x: w - 1, y: 0, width: 3, height: h))
-        
+    public override var frame: CGRect {
+        didSet {
+            self.subviews.forEach { $0.removeFromSuperview() }
+            self.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+            
+            let w = frame.width
+            let h = frame.height
+            cathode = Cathode(frame: CGRect(x: 8, y: h * 0.5 - 15, width: 15, height: 30))
+            anode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width, y: h * 0.5 - 15, width: 55, height: 30))
+            xPlate = Plate(frame: CGRect(x: anode.frame.origin.x + anode.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .x)
+            yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .y)
+            screen = Screen(frame: CGRect(x: w - 1, y: 0, width: 3, height: h))
+            
+            self.layer.addSublayer(borderLayer())
+            [anode, xPlate, yPlate, screen, cathode].forEach { self.addSubview($0) }
+            let stream = streamLayer()
+            self.layer.addSublayer(stream)
+            
+            anode.topLayer?.removeFromSuperlayer()
+            anode.topLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
+            self.layer.addSublayer(anode.topLayer!)
+            
+            anode.circleLayer?.removeFromSuperlayer()
+            anode.circleLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
+            self.layer.addSublayer(anode.circleLayer!)
+            
+            xPlate.plate2?.removeFromSuperlayer()
+            xPlate.plate2?.position = CGPoint(x: xPlate.frame.origin.x, y: xPlate.frame.origin.y)
+            self.layer.addSublayer(xPlate.plate2!)
+            
+            let anim = CABasicAnimation(keyPath: "path")
+            anim.fromValue = streamPath(false).cgPath
+            anim.toValue = streamPath(true).cgPath
+            anim.duration = 1
+            anim.autoreverses = true
+            anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            anim.repeatCount = Float(Int.max)
+            stream.add(anim, forKey: "")
+        }
+    }
+    
+    public override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        self.layer.addSublayer(borderLayer())
-        [anode, xPlate, yPlate, screen, cathode].forEach { self.addSubview($0) }
-        let stream = streamLayer()
-        self.layer.addSublayer(stream)
-        
-        anode.topLayer?.removeFromSuperlayer()
-        anode.topLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
-        self.layer.addSublayer(anode.topLayer!)
-        
-        anode.circleLayer?.removeFromSuperlayer()
-        anode.circleLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
-        self.layer.addSublayer(anode.circleLayer!)
-        
-        xPlate.plate2?.removeFromSuperlayer()
-        xPlate.plate2?.position = CGPoint(x: xPlate.frame.origin.x, y: xPlate.frame.origin.y)
-        self.layer.addSublayer(xPlate.plate2!)
-        
-        let anim = CABasicAnimation(keyPath: "path")
-        anim.fromValue = streamPath(false).cgPath
-        anim.toValue = streamPath(true).cgPath
-        anim.duration = 1
-        anim.autoreverses = true
-        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        anim.repeatCount = Float(Int.max)
-        stream.add(anim, forKey: "")
     }
     
     func streamLayer() -> CALayer {

@@ -3,10 +3,11 @@
     <pages>
         <page name='Introduction'/>
         <page name='Table of Contents'/>
+        <page name='History'/>
         <page name='Cathode'/>
         <page name='Anode'/>
-        <page name='Deflection System'/>
         <page name='Screen'/>
+        <page name='DeflectionSystem'/>
         <page name='Signals'/>
         <page name='Playground'/>
     </pages>
