@@ -16,5 +16,7 @@
 	<array>
 		<string>Chapter1.playgroundchapter</string>
 	</array>
+	<key>ImageReference</key>
+	<string>icon.png</string>
 </dict>
 </plist>

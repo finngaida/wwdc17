@@ -16,6 +16,6 @@ Hello, reader!
 let v = DisplayViewController()
 PlaygroundPage.current.liveView = v
 
-v.display.xFunc = { x in return cos(x * CGFloat.pi) * 0.7 }
+//v.display.xFunc = { x in return cos(x * CGFloat.pi) * 0.7 }
 v.display.yFunc = { x in return sin(x * CGFloat.pi) * 0.4 }
 //v.display.amplitude = 0.6

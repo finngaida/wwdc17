@@ -3,10 +3,10 @@ import PlaygroundSupport
 
 public class DisplayViewController: UIViewController {
 
-    var display: Display!
+    public var display: Display!
     
     override public func viewDidLoad() {
-        display = Display(frame: CGRect(x: 0, y: 0, width: self.view.frame.width - 80, height: (self.view.frame.width - 80) * 2/3))
+        display = Display(frame: CGRect(x: 0, y: 0, width: 420, height: 300))
         display.center = self.view.center
         self.view.addSubview(display)
     }
@@ -14,7 +14,7 @@ public class DisplayViewController: UIViewController {
     override public func viewDidLayoutSubviews() {
         super.viewDidLoad()
         
-        display.frame = CGRect(x: 0, y: 0, width: self.view.frame.width - 100, height: self.view.frame.width - 100 * 2 / 3)
+        display.frame = CGRect(x: 0, y: 0, width: 420, height: 300)
         display.center = self.view.center
     }
     

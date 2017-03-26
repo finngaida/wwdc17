@@ -1,8 +1,5 @@
 //: [Previous](@previous)
 
-import UIKit
-import PlaygroundSupport
-
 /*:
  Okay so we outlined the steps neccessary to build an oscilloscope, and the first one is to get a lot of electrons.
  
@@ -26,8 +23,11 @@ import PlaygroundSupport
  
  */
 
+import UIKit
+import PlaygroundSupport
 let v = UIViewController()
-let cathode = Cathode(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+let cathode = Cathode()
+cathode.center = CGPoint(x: 200, y: 200)
 v.view.addSubview(cathode)
 
 PlaygroundPage.current.liveView = v

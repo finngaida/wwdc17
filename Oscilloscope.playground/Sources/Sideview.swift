@@ -2,13 +2,13 @@ import UIKit
 
 public class Sideview: UIView {
     
-    var cathode: Cathode!
-    var anode: Anode!
-    var xPlate: Plate!
-    var yPlate: Plate!
-    var screen: Screen!
+    var cathode: Cathode
+    var anode: Anode
+    var xPlate: Plate
+    var yPlate: Plate
+    var screen: Screen
     
-    public override var frame: CGRect {
+    override public var frame: CGRect {
         didSet {
             self.subviews.forEach { $0.removeFromSuperview() }
             self.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
@@ -21,36 +21,81 @@ public class Sideview: UIView {
             yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .y)
             screen = Screen(frame: CGRect(x: w - 1, y: 0, width: 3, height: h))
             
-            self.layer.addSublayer(borderLayer())
-            [anode, xPlate, yPlate, screen, cathode].forEach { self.addSubview($0) }
-            let stream = streamLayer()
-            self.layer.addSublayer(stream)
-            
-            anode.topLayer?.removeFromSuperlayer()
-            anode.topLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
-            self.layer.addSublayer(anode.topLayer!)
-            
-            anode.circleLayer?.removeFromSuperlayer()
-            anode.circleLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
-            self.layer.addSublayer(anode.circleLayer!)
-            
-            xPlate.plate2?.removeFromSuperlayer()
-            xPlate.plate2?.position = CGPoint(x: xPlate.frame.origin.x, y: xPlate.frame.origin.y)
-            self.layer.addSublayer(xPlate.plate2!)
-            
-            let anim = CABasicAnimation(keyPath: "path")
-            anim.fromValue = streamPath(false).cgPath
-            anim.toValue = streamPath(true).cgPath
-            anim.duration = 1
-            anim.autoreverses = true
-            anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            anim.repeatCount = Float(Int.max)
-            stream.add(anim, forKey: "")
+            commonInit()
         }
     }
     
-    public override init(frame: CGRect) {
+    func commonInit() {
+        self.layer.addSublayer(borderLayer())
+        [anode, xPlate, yPlate, screen, cathode].forEach { self.addSubview($0) }
+        let stream = streamLayer()
+        self.layer.addSublayer(stream)
+        
+        anode.topLayer?.removeFromSuperlayer()
+        anode.topLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
+        self.layer.addSublayer(anode.topLayer!)
+        
+        anode.circleLayer?.removeFromSuperlayer()
+        anode.circleLayer?.position = CGPoint(x: anode.frame.origin.x, y: anode.frame.origin.y)
+        self.layer.addSublayer(anode.circleLayer!)
+        
+        xPlate.plate2?.removeFromSuperlayer()
+        xPlate.plate2?.position = CGPoint(x: xPlate.frame.origin.x, y: xPlate.frame.origin.y)
+        self.layer.addSublayer(xPlate.plate2!)
+        
+        let anim = CABasicAnimation(keyPath: "path")
+        anim.fromValue = streamPath(false).cgPath
+        anim.toValue = streamPath(true).cgPath
+        anim.duration = 1
+        anim.autoreverses = true
+        anim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        anim.repeatCount = Float(Int.max)
+        stream.add(anim, forKey: "")
+        
+        addLabels()
+    }
+    
+    override public init(frame: CGRect) {
+        
+        let w = frame.width
+        let h = frame.height
+        cathode = Cathode(frame: CGRect(x: 8, y: h * 0.5 - 15, width: 15, height: 30))
+        anode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width, y: h * 0.5 - 15, width: 55, height: 30))
+        xPlate = Plate(frame: CGRect(x: anode.frame.origin.x + anode.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .x)
+        yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .y)
+        screen = Screen(frame: CGRect(x: w - 1, y: 0, width: 3, height: h))
+        
         super.init(frame: frame)
+        
+        commonInit()
+    }
+    
+    func addLabels() {
+        func l() -> UILabel {
+            let label = UILabel()
+            label.font = UIFont.systemFont(ofSize: 13)
+            label.textColor = .white
+            label.textAlignment = .center
+            return label
+        }
+        
+        let cat = l()
+        cat.frame = CGRect(x: -self.frame.width/13, y: self.frame.height-30, width: 100, height: 30)
+        cat.text = "Cathode"
+        
+        let ano = l()
+        ano.frame = CGRect(x: self.frame.width/12, y: self.frame.height-30, width: 100, height: 30)
+        ano.text = "Anode"
+        
+        let def = l()
+        def.frame = CGRect(x: self.frame.width/5, y: self.frame.height-30, width: 200, height: 30)
+        def.text = "Deflection System"
+        
+        let scr = l()
+        scr.frame = CGRect(x: self.frame.width*0.6, y: self.frame.height-30, width: 100, height: 30)
+        scr.text = "Screen"
+        
+        [cat, ano, def, scr].forEach { self.addSubview($0) }
     }
     
     func streamLayer() -> CALayer {

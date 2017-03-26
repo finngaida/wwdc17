@@ -1,8 +1,5 @@
-
 import UIKit
 import PlaygroundSupport
 
-let v = DisplayViewController()
+let v = SideViewController()
 PlaygroundPage.current.liveView = v
-
-v.display.amplitude = 0.6

@@ -1,7 +1,7 @@
 import UIKit
 
 public enum Func {
-    case progressive, sine, doubleSine, cose, doubleCose
+    case progressive, sine, doubleSine, cosine, doubleCosine
     
     public func toFunc() -> ((CGFloat)->(CGFloat)) {
         switch self {
@@ -17,11 +17,11 @@ public enum Func {
             return { input in
                 return sin(input * 2 * CGFloat.pi)
             }
-        case .cose:
+        case .cosine:
             return { input in
                 return cos(input * CGFloat.pi)
             }
-        case .doubleCose:
+        case .doubleCosine:
             return { input in
                 return cos(input * 2 * CGFloat.pi)
             }
@@ -97,6 +97,7 @@ public class Display: UIView {
         self.layer.addSublayer(l)
         
         self.drawVerticalCenterLine()
+        self.setupVerticalLettering()
     }
     
     func drawVerticalCenterLine() {
@@ -110,6 +111,17 @@ public class Display: UIView {
         l.lineWidth = 1
         l.lineDashPattern = [5]
         self.layer.addSublayer(l)
+    }
+    
+    func setupVerticalLettering() {
+        ["-1", "0", "1"].enumerated().forEach { (i, s) in
+            let x:CGFloat = self.frame.width * (i==0 ? 0.01 : i==2 ? 0.97 : 0.49)
+            let label = UILabel(frame: CGRect(x: x, y: self.frame.height/2-10, width: 20, height: 20))
+            label.textColor = UIColor(red: 0.573, green: 1, blue: 0.996, alpha: 1)
+            label.font = UIFont.systemFont(ofSize: 15)
+            label.text = s
+            self.addSubview(label)
+        }
     }
     
     func drawHorizontalLines() {
@@ -136,6 +148,18 @@ public class Display: UIView {
         self.layer.addSublayer(l)
         
         self.drawHorizontalCenterLine()
+        self.setupHorizontalLettering()
+    }
+    
+    func setupHorizontalLettering() {
+        ["1", "-1"].enumerated().forEach { (i, s) in
+            let y:CGFloat = self.frame.height * (i==0 ? 0.01 : 0.92)
+            let label = UILabel(frame: CGRect(x: self.frame.width/2-10, y: y, width: 20, height: 20))
+            label.textColor = UIColor(red: 0.573, green: 1, blue: 0.996, alpha: 1)
+            label.font = UIFont.systemFont(ofSize: 15)
+            label.text = s
+            self.addSubview(label)
+        }
     }
     
     func drawHorizontalCenterLine() {

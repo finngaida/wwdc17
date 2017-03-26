@@ -11,6 +11,10 @@ public class Plate: UIView {
     public var plate1: CALayer?
     public var plate2: CALayer?
     
+    public convenience init() {
+        self.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100), mode: .y)
+    }
+    
     public init(frame: CGRect, mode: Mode) {
         self.mode = mode
         super.init(frame: frame)

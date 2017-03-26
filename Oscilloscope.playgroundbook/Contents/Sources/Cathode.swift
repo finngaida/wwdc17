@@ -4,6 +4,10 @@ public class Cathode: UIView {
     
     var emitter: CAEmitterLayer
     
+    public convenience init() {
+        self.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    }
+    
     override public init(frame: CGRect) {
         emitter = CAEmitterLayer()
         super.init(frame: frame)
@@ -12,19 +16,35 @@ public class Cathode: UIView {
         
         let cell = CAEmitterCell()
         cell.birthRate = 100
-        cell.lifetime = 1
+        cell.lifetime = 1.5
         cell.velocity = 100
         cell.scale = 0.1
         cell.emissionLongitude = CGFloat.pi * 0
         cell.emissionRange = -CGFloat.pi * 0.25
         cell.contents = UIImage(named: "spark.png")!.cgImage
         
-        emitter.frame = CGRect(x: 0, y: 0, width: frame.width*2, height: frame.height)
+        emitter.frame = CGRect(x: 15, y: 0, width: frame.width*2, height: frame.height)
         emitter.masksToBounds = true
         emitter.emitterCells = [cell]
         
         self.layer.addSublayer(spiralLayer())
         self.layer.addSublayer(emitter)
+        
+        setupLabels()
+    }
+    
+    func setupLabels() {
+        let minus = UILabel(frame: CGRect(x: -5, y: 10, width: 10, height: 10))
+        minus.textColor = .white
+        minus.font = UIFont.systemFont(ofSize: 20)
+        minus.text = "-"
+        self.addSubview(minus)
+        
+        let plus = UILabel(frame: CGRect(x: -5, y: self.frame.height - 25, width: 10, height: 10))
+        plus.textColor = .white
+        plus.font = UIFont.systemFont(ofSize: 20)
+        plus.text = "+"
+        self.addSubview(plus)
     }
     
     func spiralLayer() -> CALayer {
@@ -33,7 +53,7 @@ public class Cathode: UIView {
         l.fillColor = nil
         l.strokeColor = UIColor.white.cgColor
         l.lineWidth = 3
-        l.position = CGPoint(x: 0.4*self.frame.width, y: 0.15*self.frame.height)
+        l.position = CGPoint(x: 0.6*self.frame.width, y: 0.15*self.frame.height)
         l.transform = CATransform3DMakeRotation(CGFloat.pi * 0.5, 0, 0, 1)
         l.transform = CATransform3DScale(l.transform, self.frame.height/80, self.frame.height/80, 1)
         return l
@@ -41,7 +61,7 @@ public class Cathode: UIView {
     
     func spiralPath() -> UIBezierPath {
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: 1, y: 50))
+        path.move(to: CGPoint(x: 1, y: 40))
         path.addLine(to: CGPoint(x: 1, y: 27.52))
         path.addCurve(to: CGPoint(x: 19.82, y: 13.19), controlPoint1: CGPoint(x: 1.82, y: 27.52), controlPoint2: CGPoint(x: 19.82, y: 23.51))
         path.addCurve(to: CGPoint(x: 8.3, y: 0), controlPoint1: CGPoint(x: 19.82, y: 2.87), controlPoint2: CGPoint(x: 8.3, y: 0))
@@ -62,7 +82,7 @@ public class Cathode: UIView {
         path.addCurve(to: CGPoint(x: 46.47, y: 0), controlPoint1: CGPoint(x: 58, y: 2.87), controlPoint2: CGPoint(x: 46.47, y: 0))
         path.addCurve(to: CGPoint(x: 39.99, y: 13.19), controlPoint1: CGPoint(x: 46.47, y: 0), controlPoint2: CGPoint(x: 33.51, y: 3.44))
         path.addCurve(to: CGPoint(x: 52.96, y: 27.52), controlPoint1: CGPoint(x: 46.47, y: 22.93), controlPoint2: CGPoint(x: 52.96, y: 27.52))
-        path.addLine(to: CGPoint(x: 53, y: 50))
+        path.addLine(to: CGPoint(x: 53, y: 40))
         return path
     }
     

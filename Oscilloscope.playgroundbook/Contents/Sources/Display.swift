@@ -1,7 +1,7 @@
 import UIKit
 
 public enum Func {
-    case progressive, sine, doubleSine, cose, doubleCose
+    case progressive, sine, doubleSine, cosine, doubleCosine
     
     public func toFunc() -> ((CGFloat)->(CGFloat)) {
         switch self {
@@ -17,11 +17,11 @@ public enum Func {
             return { input in
                 return sin(input * 2 * CGFloat.pi)
             }
-        case .cose:
+        case .cosine:
             return { input in
                 return cos(input * CGFloat.pi)
             }
-        case .doubleCose:
+        case .doubleCosine:
             return { input in
                 return cos(input * 2 * CGFloat.pi)
             }
@@ -54,6 +54,10 @@ public class Display: UIView {
         drawVerticalLines()
         drawHorizontalLines()
         drawPath()
+    }
+    
+    public convenience init() {
+        self.init(frame: CGRect(x: 0, y: 0, width: 420, height: 300))
     }
     
     public init(frame: CGRect, xFunc: @escaping ((CGFloat)->(CGFloat)) = Func.progressive.toFunc(), yFunc: @escaping ((CGFloat)->(CGFloat)) = Func.sine.toFunc()) {
@@ -139,7 +143,7 @@ public class Display: UIView {
     
     public var amplitude: CGFloat = 1 {
         didSet {
-            drawPath()
+            resetFrame()
         }
     }
     
