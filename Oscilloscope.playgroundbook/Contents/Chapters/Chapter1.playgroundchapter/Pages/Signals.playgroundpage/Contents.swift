@@ -68,12 +68,10 @@ PlaygroundPage.current.liveView = v
 //display.xFunc = <#sine()#>
 //#-end-editable-code
 
-/*:
- 
- Whoa! It's a [Lissajous figure](https://en.wikipedia.org/wiki/Lissajous_curve)!
- Congratulations! You now know how an oscilloscope works and what it can be used for. Go to the next page to have some fun exploring different shapes our oscilloscope can display:
- 
- */
-
+//#-hidden-code
+if display.xFunc(0.5) == sine()(0.5) && display.yFunc(0.5) == doubleSine()(0.5) {
+    PlaygroundPage.current.assessmentStatus = .pass(message: "**Whoa!** It's a [Lissajous figure](https://en.wikipedia.org/wiki/Lissajous_curve)!\nCongratulations! You now know how an oscilloscope works and what it can be used for. Go to the [next page](@next) to have some fun exploring different shapes our oscilloscope can display.")
+}
+//#-end-hidden-code
 
 //: [⏮ Previous](@previous) | [Next ⏭](@next)

@@ -16,14 +16,14 @@ public class Cathode: UIView {
         
         let cell = CAEmitterCell()
         cell.birthRate = 100
-        cell.lifetime = 1.5
+        cell.lifetime = 1.3
         cell.velocity = 100
         cell.scale = 0.1
         cell.emissionLongitude = CGFloat.pi * 0
         cell.emissionRange = -CGFloat.pi * 0.25
         cell.contents = UIImage(named: "spark.png")!.cgImage
         
-        emitter.frame = CGRect(x: 15, y: 0, width: frame.width*2, height: frame.height)
+        emitter.frame = CGRect(x: self.frame.width/7, y: 0, width: frame.width*2, height: frame.height)
         emitter.masksToBounds = true
         emitter.emitterCells = [cell]
         
@@ -34,15 +34,16 @@ public class Cathode: UIView {
     }
     
     func setupLabels() {
-        let minus = UILabel(frame: CGRect(x: -5, y: 10, width: 10, height: 10))
+        let w = self.frame.height/10
+        let minus = UILabel(frame: CGRect(x: -w/2, y: w, width: w, height: w))
         minus.textColor = .white
-        minus.font = UIFont.systemFont(ofSize: 20)
+        minus.font = UIFont.systemFont(ofSize: w*2)
         minus.text = "-"
         self.addSubview(minus)
         
-        let plus = UILabel(frame: CGRect(x: -5, y: self.frame.height - 25, width: 10, height: 10))
+        let plus = UILabel(frame: CGRect(x: -w/2, y: self.frame.height - w*2.5, width: w, height: w))
         plus.textColor = .white
-        plus.font = UIFont.systemFont(ofSize: 20)
+        plus.font = UIFont.systemFont(ofSize: w*2)
         plus.text = "+"
         self.addSubview(plus)
     }

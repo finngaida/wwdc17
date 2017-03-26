@@ -16,6 +16,11 @@
  
  */
 
-let plate = Plate()
+let /*#-editable-code*/plate/*#-end-editable-code*/ = Plate()
+
+//#-hidden-code
+import PlaygroundSupport
+PlaygroundPage.current.assessmentStatus = .pass(message: nil)
+//#-end-hidden-code
 
 //: [⏮ Previous](@previous) | [Next ⏭](@next)

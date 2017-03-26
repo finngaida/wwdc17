@@ -16,6 +16,10 @@ Hello, reader!
 let v = DisplayViewController()
 PlaygroundPage.current.liveView = v
 
-//v.display.xFunc = { x in return cos(x * CGFloat.pi) * 0.7 }
+v.display.xFunc = { x in return cos(x * CGFloat.pi) * 0.7 }
 v.display.yFunc = { x in return sin(x * CGFloat.pi) * 0.4 }
 //v.display.amplitude = 0.6
+
+DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
+    print("Dot: \(v.display.dot), \n\n superview: \(v.display.dot.superview), \n\n superlayer: \(v.display.dot.layer.superlayer), \n\n animations: \(v.display.dot.layer.animationKeys())")
+})

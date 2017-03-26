@@ -24,6 +24,11 @@
  
  */
 
-let display = Display()
+let /*#-editable-code*/display/*#-end-editable-code*/ = Display()
+
+//#-hidden-code
+import PlaygroundSupport
+PlaygroundPage.current.assessmentStatus = .pass(message: nil)
+//#-end-hidden-code
 
 //: [⏮ Previous](@previous) | [Next ⏭](@next)

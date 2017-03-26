@@ -49,7 +49,7 @@ public class Display: UIView {
         }
     }
     
-    func resetFrame() {
+    public func resetFrame() {
         self.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         drawVerticalLines()
         drawHorizontalLines()
@@ -216,7 +216,7 @@ public class Display: UIView {
         animateDot()
     }
     
-    var dot: UIImageView
+    public var dot: UIImageView
     
     func animateDot() {
         
@@ -224,13 +224,13 @@ public class Display: UIView {
             self.addSubview(dot)
         }
         
-        dot.layer.removeAllAnimations()
+        //dot.layer.removeAllAnimations()
         
         let anim = CAKeyframeAnimation(keyPath: "position")
         anim.path = path().cgPath
         anim.repeatCount = Float(Int.max)
         anim.duration = 1
-        dot.layer.add(anim, forKey: "")
+        dot.layer.add(anim, forKey: "wwdcrulez")
     }
     
     required public init?(coder aDecoder: NSCoder) {

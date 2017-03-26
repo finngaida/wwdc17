@@ -9,6 +9,10 @@ public class DisplayViewController: UIViewController {
         display = Display(frame: CGRect(x: 0, y: 0, width: 420, height: 300))
         display.center = self.view.center
         self.view.addSubview(display)
+        
+        DispatchQueue.main.async() {
+            self.display.resetFrame()
+        }
     }
     
     override public func viewDidLayoutSubviews() {

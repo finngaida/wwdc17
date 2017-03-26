@@ -23,6 +23,11 @@
  
  */
 
-let cathode = Cathode()
+let /*#-editable-code*/cathode/*#-end-editable-code*/ = Cathode()
+
+//#-hidden-code
+import PlaygroundSupport
+PlaygroundPage.current.assessmentStatus = .pass(message: nil)
+//#-end-hidden-code
 
 //: [⏮ Previous](@previous) | [Next ⏭](@next)

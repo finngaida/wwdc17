@@ -49,7 +49,7 @@ public class Display: UIView {
         }
     }
     
-    func resetFrame() {
+    public func resetFrame() {
         self.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         drawVerticalLines()
         drawHorizontalLines()
@@ -76,14 +76,22 @@ public class Display: UIView {
         resetFrame()
     }
     
-    let lineDistance: CGFloat = 30
+    var lineDistance: CGFloat = 30
     func drawVerticalLines() {
-        let number:Int = Int(self.frame.width / lineDistance)
         let p = UIBezierPath()
         
-        for i in 1..<number where i != number / 2 {
-            p.move(to: CGPoint(x: CGFloat(Int(lineDistance)*i), y: 0))
-            p.addLine(to: CGPoint(x: CGFloat(Int(lineDistance)*i), y: self.frame.height))
+        var x = self.frame.width / 2
+        while x > 0 {
+            x -= lineDistance
+            p.move(to: CGPoint(x: x, y: 0))
+            p.addLine(to: CGPoint(x: x, y: self.frame.height))
+        }
+        
+        x = self.frame.width / 2
+        while x < self.frame.width {
+            x += lineDistance
+            p.move(to: CGPoint(x: x, y: 0))
+            p.addLine(to: CGPoint(x: x, y: self.frame.height))
         }
         
         let l = CAShapeLayer()
@@ -93,13 +101,13 @@ public class Display: UIView {
         self.layer.addSublayer(l)
         
         self.drawVerticalCenterLine()
+        self.setupVerticalLettering()
     }
     
     func drawVerticalCenterLine() {
-        let i:Int = Int(self.frame.width / lineDistance) / 2
         let p = UIBezierPath()
-            p.move(to: CGPoint(x: CGFloat(Int(lineDistance)*i), y: 0))
-            p.addLine(to: CGPoint(x: CGFloat(Int(lineDistance)*i), y: self.frame.height))
+        p.move(to: CGPoint(x: self.frame.width/2, y: 0))
+        p.addLine(to: CGPoint(x: self.frame.width/2, y: self.frame.height))
         
         let l = CAShapeLayer()
         l.path = p.cgPath
@@ -109,13 +117,32 @@ public class Display: UIView {
         self.layer.addSublayer(l)
     }
     
+    func setupVerticalLettering() {
+        ["-1", "0", "1"].enumerated().forEach { (i, s) in
+            let x:CGFloat = self.frame.width * (i==0 ? 0.01 : i==2 ? 0.97 : 0.49)
+            let label = UILabel(frame: CGRect(x: x, y: self.frame.height/2-10, width: 20, height: 20))
+            label.textColor = UIColor(red: 0.573, green: 1, blue: 0.996, alpha: 1)
+            label.font = UIFont.systemFont(ofSize: 15)
+            label.text = s
+            self.addSubview(label)
+        }
+    }
+    
     func drawHorizontalLines() {
-        let number:Int = Int(self.frame.height / lineDistance)
         let p = UIBezierPath()
         
-        for i in 1..<number where i != number / 2 {
-            p.move(to: CGPoint(x: 0, y: CGFloat(Int(lineDistance)*i)))
-            p.addLine(to: CGPoint(x: self.frame.width, y: CGFloat(Int(lineDistance)*i)))
+        var y = self.frame.height / 2
+        while y > 0 {
+            y -= lineDistance
+            p.move(to: CGPoint(x: 0, y: y))
+            p.addLine(to: CGPoint(x: self.frame.width, y: y))
+        }
+        
+        y = self.frame.height / 2
+        while y < self.frame.height {
+            y += lineDistance
+            p.move(to: CGPoint(x: 0, y: y))
+            p.addLine(to: CGPoint(x: self.frame.width, y: y))
         }
         
         let l = CAShapeLayer()
@@ -125,13 +152,24 @@ public class Display: UIView {
         self.layer.addSublayer(l)
         
         self.drawHorizontalCenterLine()
+        self.setupHorizontalLettering()
+    }
+    
+    func setupHorizontalLettering() {
+        ["1", "-1"].enumerated().forEach { (i, s) in
+            let y:CGFloat = self.frame.height * (i==0 ? 0.01 : 0.92)
+            let label = UILabel(frame: CGRect(x: self.frame.width/2-10, y: y, width: 20, height: 20))
+            label.textColor = UIColor(red: 0.573, green: 1, blue: 0.996, alpha: 1)
+            label.font = UIFont.systemFont(ofSize: 15)
+            label.text = s
+            self.addSubview(label)
+        }
     }
     
     func drawHorizontalCenterLine() {
-        let i:Int = Int(self.frame.height / lineDistance) / 2
         let p = UIBezierPath()
-        p.move(to: CGPoint(x: 0, y: CGFloat(Int(lineDistance)*i)))
-        p.addLine(to: CGPoint(x: self.frame.width, y: CGFloat(Int(lineDistance)*i)))
+        p.move(to: CGPoint(x: 0, y: self.frame.height/2))
+        p.addLine(to: CGPoint(x: self.frame.width, y: self.frame.height/2))
         
         let l = CAShapeLayer()
         l.path = p.cgPath
@@ -143,7 +181,7 @@ public class Display: UIView {
     
     public var amplitude: CGFloat = 1 {
         didSet {
-            resetFrame()
+            drawPath()
         }
     }
     
@@ -159,7 +197,7 @@ public class Display: UIView {
             if perWidth == 0 { path.move(to: CGPoint(x: x, y: y)) }
             path.addLine(to: CGPoint(x: x, y: y))
         }
-
+        
         return path
     }
     
@@ -182,7 +220,7 @@ public class Display: UIView {
         animateDot()
     }
     
-    var dot: UIImageView
+    public var dot: UIImageView
     
     func animateDot() {
         
@@ -190,13 +228,13 @@ public class Display: UIView {
             self.addSubview(dot)
         }
         
-        dot.layer.removeAllAnimations()
+        //dot.layer.removeAllAnimations()
         
         let anim = CAKeyframeAnimation(keyPath: "position")
         anim.path = path().cgPath
         anim.repeatCount = Float(Int.max)
-        anim.duration = 2
-        dot.layer.add(anim, forKey: "")
+        anim.duration = 1
+        dot.layer.add(anim, forKey: "wwdcrulez")
     }
     
     required public init?(coder aDecoder: NSCoder) {

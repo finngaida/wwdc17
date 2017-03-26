@@ -8,6 +8,10 @@ public class DisplayViewController: UIViewController {
     override public func viewDidLoad() {
         display = Display(frame: self.view.frame)
         self.view.addSubview(display)
+        
+        DispatchQueue.main.async() {
+            self.display.resetFrame()
+        }
     }
     
     override public func viewDidLayoutSubviews() {
