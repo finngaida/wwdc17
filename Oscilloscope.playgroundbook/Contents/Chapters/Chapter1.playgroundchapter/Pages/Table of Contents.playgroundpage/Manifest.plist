@@ -12,5 +12,7 @@
 	<true/>
 	<key>PlaygroundLoggingMode</key>
 	<string>Off</string>
+	<key>PosterReference</key>
+	<string>poster.png</string>
 </dict>
 </plist>

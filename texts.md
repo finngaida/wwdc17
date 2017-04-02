@@ -16,3 +16,14 @@ I also made use of the `PlaygroundBook` format in order to create editable code 
 
 ## Beyond
 *Let us know how you've considered sharing your coding knowledge and enthusiasm for computer science with others, in 500 words or less*.
+Since I started developing for iOS in 2012 I've been very passionate about the abilities it gave me and I couldn't help, but tell all my friends and family about the projects I was working on. I'm still amazed by all the possibilities that mobile platforms in general, but iOS above all, have to offer.
+In 2013, 2014 and 2015 I took part in *Jugend Hackt*, a hackathon for young developers in Berlin and together with two other students (and past WWDC scholarship recipients) from Germany developed apps that would help people by utilising the given data and our coding knowledge. We put together an app to spot so-called *"Stolpersteine"* - small stones in the floor as reminders of the holocaust - because we think it's important to be reminded of the past in order not to repeat mistakes.
+Later in 2015 I helped develop *"Moin refugees"*, another iOS app to help refugees that just came to Germany for shelter settle in and also gave the residents the ability to help in the camps or donate.
+My passion for cutting edge technology led to me constantly telling my siblings and parents about all the new developments - be it the introduction of touch screens, brand new ways to interaction (Leap Motion), Virtual reality devices or wearables - I'm pretty sure even though they seem annoyed by my excessive enthusiasm, at some point I aroused their interest in those topics, and that is all I can ask for.
+Since getting a little bit famous for some of my apps I am often asked how people can start to learn to code and I'm always really happy to show them all the resources I found and also help with questions they might have along the way.
+
+## Comments
+Attending WWDC in 2015 was a very special experience for me, not only because travelling around the bay area and visiting headquarters of famous companies is awesome, but also because I met so so many incredibly smart and kind people from all over the globe, all working in a similar sector of technology. 
+Now don't get me wrong, I learned a lot about the new technologies Apple presented that year, but the amount of new ways to work, resources to look into, job opportunities, connections to people in other companies and moreover the fun I had those ten days outweighs that by far and I would do anything to be able to do it again this year.
+Please feel free to contact me anytime via mail (finn.gaida@me.com) or phone (+49 157 36242586), I'll be happy to answer any questions or supply you with more information.
+Also for references to the projects I talked about in the *Beyond WWDC* text, most of them can be found on my GitHub account (github.com/finngaida).

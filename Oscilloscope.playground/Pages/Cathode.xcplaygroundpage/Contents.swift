@@ -25,11 +25,7 @@
 
 import UIKit
 import PlaygroundSupport
-let v = UIViewController()
-let cathode = Cathode()
-cathode.center = CGPoint(x: 200, y: 200)
-v.view.addSubview(cathode)
-
+let v = CathodeViewController()
 PlaygroundPage.current.liveView = v
 
 //: [Next](@next)

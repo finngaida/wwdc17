@@ -17,8 +17,8 @@ public class Sideview: UIView {
             let h = frame.height
             cathode = Cathode(frame: CGRect(x: 8, y: h * 0.5 - 15, width: 15, height: 30))
             anode = Anode(frame: CGRect(x: cathode.frame.origin.x + cathode.frame.width, y: h * 0.5 - 15, width: 55, height: 30))
-            xPlate = Plate(frame: CGRect(x: anode.frame.origin.x + anode.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .x)
-            yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .y)
+            xPlate = Plate(frame: CGRect(x: anode.frame.origin.x + anode.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .x, withSigns: false)
+            yPlate = Plate(frame: CGRect(x: xPlate.frame.origin.x + xPlate.frame.width, y: h * 0.5 - 40, width: 70, height: 80), mode: .y, withSigns: false)
             screen = Screen(frame: CGRect(x: w - 1, y: 0, width: 3, height: h))
             
             commonInit()
@@ -84,7 +84,7 @@ public class Sideview: UIView {
         }
         
         let cat = l()
-        cat.frame = CGRect(x: 0, y: h-30, width: 100, height: 30)
+        cat.frame = CGRect(x: -w/20, y: h-30, width: 100, height: 30)
         cat.text = "Cathode"
         
         let ano = l()

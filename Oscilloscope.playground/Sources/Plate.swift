@@ -136,7 +136,25 @@ public class Plate: UIView {
         plate2 = lb
         self.layer.addSublayer(lb)
         
+        setupSignLabels()
         setupVerticalLines()
+    }
+    
+    func setupSignLabels() {
+        
+        let plus = UILabel(frame: CGRect(x: self.frame.width/2-5, y: 2, width: 10, height: 10))
+        plus.textAlignment = .center
+        plus.font = UIFont.systemFont(ofSize: 13)
+        plus.text = "+"
+        plus.textColor = .white
+        self.addSubview(plus)
+        
+        let minus = UILabel(frame: CGRect(x: self.frame.width/2-5, y: self.frame.height - 12, width: 10, height: 10))
+        minus.textAlignment = .center
+        minus.font = UIFont.systemFont(ofSize: 13)
+        minus.text = "-"
+        minus.textColor = .white
+        self.addSubview(minus)
     }
     
     func setupVerticalLines() {

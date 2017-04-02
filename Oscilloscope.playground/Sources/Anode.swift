@@ -2,6 +2,10 @@ import UIKit
 
 public class Anode: UIView {
     
+    public convenience init() {
+        self.init(frame: CGRect(x: 0, y: 0, width: 150, height: 100))
+    }
+    
     override public init(frame: CGRect) {
         super.init(frame: frame)
         initLayers()

@@ -2,7 +2,7 @@ import UIKit
 
 public class Cathode: UIView {
     
-    var emitter: CAEmitterLayer
+    public var emitter: CAEmitterLayer
     
     public convenience init() {
         self.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))

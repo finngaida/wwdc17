@@ -10,13 +10,15 @@ public class Plate: UIView {
     
     public var plate1: CALayer?
     public var plate2: CALayer?
+    var withSigns: Bool
     
     public convenience init() {
-        self.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100), mode: .y)
+        self.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100), mode: .y, withSigns: true)
     }
     
-    public init(frame: CGRect, mode: Mode) {
+    public init(frame: CGRect, mode: Mode, withSigns: Bool = false) {
         self.mode = mode
+        self.withSigns = withSigns
         super.init(frame: frame)
 
         switch mode {
@@ -31,7 +33,7 @@ public class Plate: UIView {
         let xr: CGFloat = startPoint.x + distanceToYPlates + lengthOfYPlates
         let a: CGFloat = yAcceleration
         let d: CGFloat = distanceToScreen
-        let fs = ym + a + (d * a/100)
+        let fs = ym + a + (d * a/lengthOfYPlates)
         
         let path = UIBezierPath()
         path.move(to: startPoint)
@@ -140,7 +142,28 @@ public class Plate: UIView {
         plate2 = lb
         self.layer.addSublayer(lb)
         
+        if withSigns {
+            setupSignLabels()
+        }
+        
         setupVerticalLines()
+    }
+    
+    func setupSignLabels() {
+        
+        let plus = UILabel(frame: CGRect(x: self.frame.width/2-5, y: 2, width: 10, height: 10))
+        plus.textAlignment = .center
+        plus.font = UIFont.systemFont(ofSize: 13)
+        plus.text = "+"
+        plus.textColor = .white
+        self.addSubview(plus)
+        
+        let minus = UILabel(frame: CGRect(x: self.frame.width/2-5, y: self.frame.height - 12, width: 10, height: 10))
+        minus.textAlignment = .center
+        minus.font = UIFont.systemFont(ofSize: 13)
+        minus.text = "-"
+        minus.textColor = .white
+        self.addSubview(minus)
     }
     
     func setupVerticalLines() {

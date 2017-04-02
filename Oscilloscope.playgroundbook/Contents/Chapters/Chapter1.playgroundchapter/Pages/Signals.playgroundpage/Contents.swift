@@ -25,7 +25,18 @@
 import UIKit
 import PlaygroundSupport
 
-let v = UIViewController()
+public class CenterViewController: UIViewController {
+    
+    public var display: Display?
+    
+    public override func viewDidLayoutSubviews() {
+        if let d = display {
+            d.center = CGPoint(x: self.view.center.x, y: self.view.center.y)
+        }
+    }
+}
+
+let v = CenterViewController()
 
 func progressive() -> ((CGFloat)->(CGFloat)) { return Func.progressive.toFunc() }
 func sine() -> ((CGFloat)->(CGFloat)) { return Func.sine.toFunc() }
@@ -44,7 +55,8 @@ display.yFunc = /*#-editable-code*/cosine()/*#-end-editable-code*/
 //#-hidden-code
 display.center = CGPoint(x: v.view.center.x/2, y: v.view.center.y)
 display.amplitude = 0.6
-v.view.addSubview(display)
+v.display = display
+v.view.addSubview(v.display!)
 PlaygroundPage.current.liveView = v
 //#-end-hidden-code
 
